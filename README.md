@@ -1,5 +1,9 @@
 This repository hosts the [HTML Standard](https://html.spec.whatwg.org/).
 
+### Code of conduct
+
+The WHATWG has no tolerance for any kind of harassment or abuse. All participants are expected to behave professionally and respectfully at all times. See the [FAQ's Harassment topic](https://wiki.whatwg.org/wiki/FAQ#Harassment) for further details.
+
 ### Pull requests
 
 The short version is that all you need to do is change the `source` resource and submit a patch. The longer version is that you probably want to read the [WHATWG FAQ](https://wiki.whatwg.org/wiki/FAQ) first.
