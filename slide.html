@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>幻灯片</title>
+	<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	ul,li{
+		list-style: none;
+	}
+	.slidebox{	
+		margin: 50px auto;
+		width: 300px;
+		height: 200px;
+		overflow: hidden;
+		position: relative;
+	}
+	.slidebox .left,.slidebox .right{
+		position: absolute;
+		top:40%;
+		width: 30px;
+		height: 30px;
+		background: #333;
+		cursor: pointer;
+	}
+	.slidebox .left{
+	}	
+	.slidebox .right{
+		right: 0;
+	}
+	.slidebox ul{
+		position: relative;
+	}
+	.slidebox ul li{
+		height: 200px;
+		width: 300px;
+		text-align: center;
+		font-size: 50px;
+		line-height: 50px;
+		float: left;
+	}
+	.clearfix{
+		zoom:1;
+	}
+	.clearfix:after{
+		content: "";
+		clear: both;
+		display: block;
+		height: 0;
+	}
+	</style>
+</head>
+<body>
+<div class="slidebox">
+	<ul class="clearfix">
+		<li style="background: #ccc">1</li>
+		<li style="background: #ffc0c0">2</li>
+		<li style="background: #c0f2ff">3</li>
+	</ul>
+	<div class="">
+		<span></span>
+		<span></span>
+	</div>
+	<div class="left"></div>
+	<div class="right"></div>
+</div>
+
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+
+/*function iScroll(sObj){
+	this.index=1;
+}
+iScroll.prototype={
+
+	pre:function (){
+		this.index--;
+	},
+	next:function (){
+		this.index++;
+	},
+	ulW:function (sObj){
+
+		$(sObj).find("ul").append($(sObj).find("ul").html());
+	},
+	slide:function (){
+
+	}
+}*/
+
+
+
+
+
+
+
+
+$("ul").append($("ul").html());
+var i=0;
+var h = $("li").height();
+var w = $("li").width();
+var len = $("li").length;
+var bLock = false;
+var timer = 0;
+var niLock = 0;
+$("ul").css("width",w*len);
+
+function Next(){
+	if (niLock) return;
+	
+	if(i>(len/2)){
+		$("ul").css("left",0);
+		i=1;						// 这里下标的一定是 1，不要0；
+	}else{
+		i++;
+	}
+	$("ul").animate({"left":-w*i},400);	
+
+	start();
+}
+
+function Pre(){
+	if(i<1){
+		$("ul").css("left",-w*(len/2));
+		i=(len/2)-1;
+	}else{
+		i--;
+	}
+	$("ul").animate({"left":-w*i},400);	
+}
+
+function start(){
+	timer = setTimeout(Next,2000);
+}
+start();
+
+
+/*$(".slidebox .left").click(function(){
+	clearInterval(timer);
+	
+	Pre();
+
+	timers = setInterval(function(){
+		bLock = false;
+		Next();
+	},2000);		
+});
+
+$(".slidebox .right").click(function(){
+	clearInterval(timer);
+	
+	Next();
+
+	timers = setInterval(function(){
+		bLock = false;
+		Next();
+	},2000);
+
+});*/
+
+
+
+
+/*function autoScroll(obj){
+
+	var w = $(obj).find("li").width();
+	var h = $(obj).find("li").height();
+	var len = $(obj).find("li").length;
+
+	$(obj).find("ul").css("width",len*w);
+	$(obj).find("ul").animate({
+		marginRight:-w +"px"
+	},500,function(){
+		$(this).css({marginRight:0}).find("li:last").prependTo(this);
+	});
+
+}
+
+setInterval(function(){
+	autoScroll(".slidebox");
+},2000);
+*/
+
+</script>
+
+
+
+
+<!-- <script>
+window.onload = function(){
+function $(id){ return  document.getElementById(id);}
+var aLi = $("ad").children;
+function animate(obj,target,arrt){
+    //关闭上一个定时器
+    clearInterval(obj.timer);
+
+    $("txt").innerHTML = obj.children[0].children[0].alt;
+
+    //管理定时器
+    obj.timer = setInterval(function(){
+		//移动步长
+        var step = (target - obj.offsetLeft) / 10;
+        //步长取整
+        step = step > 0? Math.ceil(step):Math.floor(step);
+        //移动盒子 ： 盒子位置 + 步长
+        obj.style.left = obj.offsetLeft + step+ "px";
+        //关闭定时器
+        if(obj.offsetLeft%800 ==0){
+            clearInterval(obj.timer);
+            //判断点击的方向
+            if(arrt === "left"){
+                var oLi = $("ad").children[aLi.length - 1].cloneNode(true);
+                //添加到最前面
+                obj.insertBefore(oLi,obj.children[0]);
+                //删除最后一个盒子
+                obj.removeChild(obj.children[aLi.length - 1]);
+                //让ul恢复初始值
+                obj.style.left = "-1600px";
+			}else{
+                //克隆第一个盒子
+                var oLi = obj.children[0].cloneNode(true);
+                //添加到最后面
+                obj.appendChild(oLi);
+                //删除第一个盒子
+                obj.removeChild(obj.children[0]);
+                //让ul恢复初始值
+                obj.style.left = "-1600px";
+
+			}
+		}
+    },20);
+}
+var timer = setInterval(autoplay,2000);
+function autoplay(){
+    animate($("ad"),-2400,"right");
+}
+$("ad").parentNode.onmouseover = function(){
+clearInterval(timer);
+$("left").style.display = "block";
+    $("right").style.display = "block";
+}
+$("ad").parentNode.onmouseout = function(){
+    $("left").style.display = "none";
+    $("right").style.display = "none";
+    timer = setInterval(autoplay,2000);
+}
+$("left").onclick = function(){
+    clearInterval(timer);
+    animate($("ad"),-800,"left");
+}
+$("right").onclick = function(){
+    clearInterval(timer);
+    animate($("ad"),-2400,"right");
+}
+}
+</script> -->
+
+
+
+</body>
+</html>
